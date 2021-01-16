@@ -138,7 +138,7 @@ class Task(models.Model):
     deadline = models.DateField(default=timezone.now)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(ProjectUser, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     priority = models.CharField(max_length=20, null=True)
 

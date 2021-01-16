@@ -326,7 +326,9 @@ class TaskDetailView(ModelFormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TaskDetailView, self).get_context_data(**kwargs)
         context['task_discussions'] = TaskDiscussion.objects.all()
-        context['todos'] = Todo.objects.all()
+        # import pdb;pdb.set_trace()
+        # todo = Todo.objects.filter(id=self.kwargs.get('pk')).first()
+        context['todos'] = Todo.objects.filter(task=self.kwargs.get('pk'), user=self.request.user)
         context['form'] = self.get_form()
         return context
 
@@ -344,10 +346,10 @@ class TaskDetailView(ModelFormMixin, DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         dict = request.POST.copy()
-        dict['user'] = self.request.user.id
-        import pdb;pdb.set_trace()
+        dict['task'] = self.kwargs.get('pk')
         form = TodoForm(dict)
         if form.is_valid():
+            form.instance.user = self.request.user
             form.save()
             return self.form_valid(form)
         else:
@@ -358,7 +360,7 @@ class TaskDetailView(ModelFormMixin, DetailView):
     #     return super(TaskDetailView, self).form_valid(form)
 
     def get_success_url(self, **kwargs):
-        return reverse('task-detail', kwargs={'pk': self.object.pk})
+        return reverse('task-detail', kwargs={'pk': self.object.task.pk})
 
 
 class TodoCreateView(CreateView):
@@ -377,4 +379,13 @@ class DeviceCategorySelectView(TemplateView):
         styles = DeviceCategory.objects.filter(id=int(request.POST.get('id'))).first()
         brands = BrandName.objects.filter(id=styles.brand.id)
         data = serializers.serialize('json', brands, fields=('id', 'brand_name'))
+        return JsonResponse({'device_categories': data})
+
+
+class TaskUserSelectView(TemplateView):
+
+    def post(self, request, *args, **kwargs):
+        project = Project.objects.filter(id=int(request.POST.get('id'))).first()
+        users = User.objects.filter(id__in=project.project_user.all())
+        data = serializers.serialize('json', users, fields=('id', 'username'))
         return JsonResponse({'device_categories': data})

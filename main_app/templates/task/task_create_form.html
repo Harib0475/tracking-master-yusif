@@ -410,6 +410,39 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'main_app/dist/js/demo.js' %}"></script>
 <!-- Page specific script -->
+<script>
+    $(document).ready(function () {
+        var $style = $('[name=user]');
+        $style.empty();
+        {#$('#id_device_category').prop('disabled', true);#}
+    });
+
+    $('#id_project').on('change', function (e) {
+        var id_project = $('#id_project').find(":selected").val();
+        if (id_project) {
+            $.ajax({
+                type: 'Post',
+                url: "{% url 'task_user_select' %}",
+                data: {
+                    'id': id_project,
+                },
+                success: function (data) {
+                    var new_data = JSON.parse(data['device_categories']);
+                    var $metal = $("#id_user");
+                    $metal.empty();
+                    $('#id_user').prop('disabled', true);
+                    if (new_data.length > 0) {
+                        $('#id_user').prop('disabled', false);
+                    }
+                    for (var i = 0; i < new_data.length; i++) {
+                        $("#id_user").append($("<option></option>")
+                            .attr("value", new_data[i].pk).text(new_data[i].fields['username']));
+                    }
+                }
+            });
+        }
+    })
+</script>
 
 </body>
 </html>
