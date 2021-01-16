@@ -391,10 +391,14 @@
               <h3 class="text-primary"><i class="fas fa-edit"></i>Manage Task</h3>
               <p>Create new task or connect to IT team for more help</p>
               <div class="text-left mt-5 mb-3">
-                  {% if user.username == project.project_leader.username  %}
+                  {% if user.id == tasks.project.project_leader.id  %}
                       <a href="{% url 'project-create' %}" class="btn btn-sm btn-primary">Create Project</a>
                       <a href="{% url 'project-task-update' tasks.id %}" class="btn btn-sm btn-primary">Edit Task</a>
-                      <a href="{% url 'project-task-create' %}" class="btn btn-sm btn-primary">Create Task</a>
+                      <form action="{% url 'project-task-delete' tasks.project.pk %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-sm btn-danger">Delete Task</button>
+                      </form>
+                      <a href="{% url 'project-task-create' tasks.project.pk %}" class="btn btn-sm btn-primary">Create Task</a>
                   {% endif %}
                 <a href="#" class="btn btn-sm btn-warning">Contact IT</a>
               </div>

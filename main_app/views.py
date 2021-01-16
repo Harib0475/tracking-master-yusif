@@ -363,6 +363,11 @@ class TaskDetailView(ModelFormMixin, DetailView):
         return reverse('task-detail', kwargs={'pk': self.object.task.pk})
 
 
+class TaskDeleteView(DeleteView):
+    model = Task
+    success_url = reverse_lazy('project-task-create')
+
+
 class TodoCreateView(CreateView):
     model = Todo
     template_name = 'task/task_detail.html'

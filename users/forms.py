@@ -6,11 +6,11 @@ from .models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(initial=User.objects.all())
+    email = forms.EmailField()
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)

@@ -12,9 +12,8 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            import pdb;pdb.set_trace()
-            form.save()
             username = form.cleaned_data.get('username')
+            form.save()
             messages.success(request, f'Account created for {username}')
             return redirect('login')
     else:

@@ -48,6 +48,7 @@ urlpatterns = [
     path('project/<int:pk>/task/new', login_required(TaskCreateView.as_view()), name='project-task-create'),
 
     path('task/new', login_required(TaskCreateView.as_view()), name='project-task-create'),
+    path('task_delete/<int:pk>/', views.TaskDeleteView.as_view(), name="project-task-delete"),
     path('task_user_select/', csrf_exempt(views.TaskUserSelectView.as_view()), name='task_user_select'),
 
     path('project/<int:pk>/task/update/', login_required(TaskUpdateView.as_view()), name='project-task-update'),

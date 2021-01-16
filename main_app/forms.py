@@ -33,7 +33,7 @@ class CommentForm(forms.ModelForm):
 
 
 # Create your models here.
-class DateInput(forms.DateTimeInput):
+class DateInput(forms.DateInput):
     input_type = 'date'
 
 
