@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container-fluid">
+                 <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+{#                                <h4 class="card-title">{{ devices.name }}</h4>#}
+{#                                <h6 class="card-subtitle">Add <code>.table-hover</code> to enable a hover state on table#}
+{#                                    rows within a <code>&lt;tbody&gt;</code>.</h6>#}
+                                <h6 class="card-subtitle"></h6>
+                                    <div class="content-section">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <fieldset class="form-group">
+                                                <legend class="border-bottom mb-4">Delete Post</legend>
+                                                <h2>Are you sure you want to delete the post "{{ object.title }}"</h2>
+                                            </fieldset>
+                                            <div class="form-group">
+                                                <button class="btn btn-outline-danger" type="submit"> Yes, Delete </button>
+                                                <a class="btn btn-outline-secondary" href="{% url 'project-list'  %}">Cancel</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                            </div>
+                        </div>
+                 </div>
+            </div>
+</body>
+</html>
