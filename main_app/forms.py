@@ -113,9 +113,10 @@ class TodoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         project_id = kwargs.pop('project_id', None)
+        user_id = kwargs.pop('user_id', None)
         super().__init__(*args, **kwargs)
-        if project_id:
-            self.fields['task'].queryset = Task.objects.filter(project__id=project_id)
+        if project_id and user_id:
+            self.fields['task'].queryset = Task.objects.filter(project__id=project_id, user__id=user_id)
 
 
 class DeviceForm(forms.ModelForm):

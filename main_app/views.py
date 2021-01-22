@@ -327,6 +327,7 @@ class TaskDetailView(ModelFormMixin, DetailView):
         kwargs = super().get_form_kwargs()
         task = Task.objects.filter(id=self.kwargs.get('pk')).first()
         kwargs['project_id'] = task.project.id
+        kwargs['user_id'] = self.request.user.id
         return kwargs
 
     def get_context_data(self, **kwargs):
