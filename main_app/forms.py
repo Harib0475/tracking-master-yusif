@@ -111,6 +111,12 @@ class TodoForm(forms.ModelForm):
             'task'
         ]
 
+    def __init__(self, *args, **kwargs):
+        project_id = kwargs.pop('project_id', None)
+        super().__init__(*args, **kwargs)
+        if project_id:
+            self.fields['task'].queryset = Task.objects.filter(project__id=project_id)
+
 
 class DeviceForm(forms.ModelForm):
     class Meta:

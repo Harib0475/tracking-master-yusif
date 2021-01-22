@@ -323,6 +323,12 @@ class TaskDetailView(ModelFormMixin, DetailView):
 
     context_object_name = 'tasks'
 
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super().get_form_kwargs()
+        task = Task.objects.filter(id=self.kwargs.get('pk')).first()
+        kwargs['project_id'] = task.project.id
+        return kwargs
+
     def get_context_data(self, **kwargs):
         context = super(TaskDetailView, self).get_context_data(**kwargs)
         context['task_discussions'] = TaskDiscussion.objects.all()
